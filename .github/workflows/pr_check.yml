@@ -13,7 +13,7 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - uses: webiny/action-conventional-commits@v1.3.1
 
   commits-number:
@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: ${{ needs.commits-number.outputs.nbcommits }}
           ref: ${{ github.event.pull_request.head.sha }}
@@ -68,7 +68,7 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: "Checkout `${{ matrix.commit }}`"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
           ref: "${{ matrix.commit }}"
