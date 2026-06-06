@@ -9,6 +9,7 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 ### 🐛 Bug Fixes
 
 - remove useless concurrency management in workflows
+- remove local action for list commits
 
 ### ⟳ Continuous Integration
 
