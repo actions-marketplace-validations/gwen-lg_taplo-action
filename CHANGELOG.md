@@ -18,6 +18,7 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 - use list-commits-action in a `ci` workflow
 - enable concurrency management for check-changelog
 - add typo check
+- run typos for each commit
 
 ### ⚙️ Miscellaneous Tasks
 
