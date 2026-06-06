@@ -6,6 +6,10 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- remove useless concurrency management in workflows
+
 ### ⟳ Continuous Integration
 
 - add dependabot.yml with github-actions
