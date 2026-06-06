@@ -16,6 +16,7 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 - update actions version
 - use the commit id for cuncurrency group
 - use list-commits-action in a `ci` workflow
+- enable concurrency management for check-changelog
 
 ### ⚙️ Miscellaneous Tasks
 
