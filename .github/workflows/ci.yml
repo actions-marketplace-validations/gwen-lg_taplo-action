@@ -1,29 +1,33 @@
-name: CI - Push check
+name: CI
 
 on:
   push:
     branches-ignore:
       - "wip*"
+  pull_request:
 
 jobs:
   check-conventional-commits:
     name: Check Conventional Commits
     runs-on: ubuntu-latest
-    concurrency:
-      # For a given workflow, if we push to the same branch, cancel all previous builds on that branch.
-      # Particularly useful for workflow triggered on release-plz sync.
-      # release-plz workflow update de pending pr twice (with cargo readme update)
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v6
       - uses: webiny/action-conventional-commits@v1.4.2
 
-  check-changelog-push:
-    if: ${{ github.event_name == 'push' }}
+  list-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      commits: ${{ steps.list-commits.outputs.commits }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: gwen-lg/list-commits-action@v1
+        id: list-commits
+
+  check-changelog:
+    needs: list-commits
     strategy:
       matrix:
-        commit: ${{ github.event.commits }}
+        commit: ${{ fromJSON(needs.list-commits.outputs.commits) }}
 
     name: "Check: ${{ matrix.commit.message }}"
     runs-on: ubuntu-latest
