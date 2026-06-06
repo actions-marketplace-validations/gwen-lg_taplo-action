@@ -15,6 +15,7 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 ### ⚙️ Miscellaneous Tasks
 
 - fix typos in README.md
+- add Makefile with entry for changelog generation
 
 ## [1.0.0] - 2025-07-17
 
