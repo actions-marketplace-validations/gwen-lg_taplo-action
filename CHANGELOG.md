@@ -6,14 +6,25 @@ This project adheres to [Conventional Commits](https://www.conventionalcommits.o
 
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- remove useless concurrency management in workflows
+- remove local action for list commits
+
 ### ⟳ Continuous Integration
 
 - add dependabot.yml with github-actions
 - update actions version
+- use the commit id for cuncurrency group
+- use list-commits-action in a `ci` workflow
+- enable concurrency management for check-changelog
+- add typo check
+- run typos for each commit
 
 ### ⚙️ Miscellaneous Tasks
 
 - fix typos in README.md
+- add Makefile with entry for changelog generation
 
 ## [1.0.0] - 2025-07-17
 

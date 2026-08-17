@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - "wip*"
+  pull_request:
+
+jobs:
+  check-conventional-commits:
+    name: Check Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: webiny/action-conventional-commits@v1.4.2
+
+  list-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      commits: ${{ steps.list-commits.outputs.commits }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: gwen-lg/list-commits-action@v1
+        id: list-commits
+
+  check-changelog:
+    needs: list-commits
+    strategy:
+      matrix:
+        commit: ${{ fromJSON(needs.list-commits.outputs.commits) }}
+
+    name: "Check: ${{ matrix.commit.message }}"
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.commit.id }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: "${{ matrix.commit.id }}"
+
+      - name: Generate Changelog
+        id: generate-changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+        env:
+          OUTPUT: CHANGELOG_UP.md
+          GITHUB_REPO: ${{ github.repository }}
+      - name: Check Changelog
+        id: check-changelog
+        run: diff CHANGELOG.md CHANGELOG_UP.md
+
+  typos_checks:
+    needs: list-commits
+    strategy:
+      matrix:
+        commit: ${{ fromJSON(needs.list-commits.outputs.commits) }}
+
+    name: "Typos: ${{ matrix.commit.message }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check spelling of entire workspace
+        uses: crate-ci/typos@master
